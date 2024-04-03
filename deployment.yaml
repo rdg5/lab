@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: test
+    hello: world
+  name: test
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: test
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - image: httpd:alpine3.18
+          name: httpd
+          resources: {}
+status: {}
