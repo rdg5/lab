@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-
 export const postOutputSchema = z.object({
   id: z.bigint(),
   title: z.string(),

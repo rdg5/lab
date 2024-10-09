@@ -1,8 +1,6 @@
 import { Kysely } from 'kysely'
 import { db } from './db';
 
-
-
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable('post')

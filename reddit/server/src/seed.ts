@@ -1,4 +1,3 @@
-import { bigint } from "zod";
 import { db } from "./db";
 
 async function seed() {
@@ -22,7 +21,6 @@ async function seed() {
   for (const post of dummyPosts) {
     await db.insertInto("post").values(post).execute();
   }
-
   console.log("Dummy data inserted successfully");
 }
 

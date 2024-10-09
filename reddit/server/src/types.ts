@@ -1,10 +1,6 @@
 import {
-  ColumnType,
   Generated,
-  Insertable,
-  JSONColumnType,
   Selectable,
-  Updateable,
 } from 'kysely'
 
 export interface Db {
@@ -19,6 +15,3 @@ export interface PostTable {
 	}
 
 export type Post = Selectable<PostTable>
-
-
-
