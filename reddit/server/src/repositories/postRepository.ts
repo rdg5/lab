@@ -1,5 +1,13 @@
 import { db } from '../db'
 import { sql } from 'kysely'
+
+interface Post {
+  id?: bigint;
+  title: string;
+  url: string;
+  voteCount?: bigint;
+}
+
 export async function getPosts() {
   return await db.selectFrom('post')
     .selectAll()
@@ -11,14 +19,14 @@ export async function getOnePostById(id: bigint) {
     .selectFrom("post")
     .selectAll()
     .where("id", "=", id)
-    .execute();
+    .executeTakeFirst();
 }
 
-export async function createNewPost(post: any) {
+export async function createNewPost(post: Post) {
 	return await db.insertInto("post").values(post).returning(['id','title','url','voteCount']).execute();
 }
 
-export async function updatePost(id: bigint, vote: any) {
+export async function updatePost(id: bigint, vote: string) {
 	const increment = vote === 'up' ? 1 : -1;
   return await db
 	.updateTable('post')
