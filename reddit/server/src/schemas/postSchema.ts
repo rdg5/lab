@@ -1,10 +1,11 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const postOutputSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   title: z.string(),
-  url: z.string().url(),
-  voteCount: z.number(),
+  url: z.string(),
+  voteCount: z.string(),
 });
 
 export const postsArraySchema = z.array(postOutputSchema);
+

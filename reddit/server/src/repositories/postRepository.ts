@@ -1,5 +1,5 @@
-import { db } from '../db'
-import { sql } from 'kysely'
+import { db } from "../db";
+import { sql } from "kysely";
 
 interface Post {
   id?: bigint;
@@ -9,31 +9,57 @@ interface Post {
 }
 
 export async function getPosts() {
-  return await db.selectFrom('post')
-    .selectAll()
-    .execute()
+  const posts = await db.selectFrom("post").selectAll().execute();
+
+  return posts.map((post) => ({
+    ...post,
+    id: post.id.toString(),
+    voteCount: post.voteCount.toString(),
+  }));
 }
 
 export async function getOnePostById(id: bigint) {
-  return await db
+  const post = await db
     .selectFrom("post")
     .selectAll()
     .where("id", "=", id)
     .executeTakeFirst();
+
+  return {
+    ...post,
+    id: post?.id.toString(),
+    voteCount: post?.voteCount.toString(),
+  };
 }
 
 export async function createNewPost(post: Post) {
-	return await db.insertInto("post").values(post).returning(['id','title','url','voteCount']).execute();
+  const [newPost] = await db
+    .insertInto("post")
+    .values(post)
+    .returning(["id", "title", "url", "voteCount"])
+    .execute();
+
+  return {
+    ...newPost,
+    id: newPost.id.toString(),
+    voteCount: newPost.voteCount.toString(),
+  };
 }
 
 export async function updatePost(id: bigint, vote: string) {
-	const increment = vote === 'up' ? 1 : -1;
-  return await db
-	.updateTable('post')
-	.set({
-		voteCount: sql`voteCount + ${increment}`,
-	})
-	.where('id', '=', id)
-	.returning(['id', 'title', 'url', 'voteCount'])
-	.execute();
+  const increment = vote === "up" ? 1 : -1;
+  const [updatedPost] = await db
+    .updateTable("post")
+    .set({
+      voteCount: sql`voteCount + ${increment}`,
+    })
+    .where("id", "=", id)
+    .returning(["id", "title", "url", "voteCount"])
+    .execute();
+
+  return {
+    ...updatedPost,
+    id: updatedPost.id.toString(),
+    voteCount: updatedPost.voteCount.toString(),
+  };
 }

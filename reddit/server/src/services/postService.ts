@@ -1,4 +1,9 @@
-import { getPosts, getOnePostById, createNewPost, updatePost } from "../repositories/postRepository";
+import {
+  getPosts,
+  getOnePostById,
+  createNewPost,
+  updatePost,
+} from "../repositories/postRepository";
 
 export async function getAllPosts() {
   return await getPosts();
@@ -9,11 +14,11 @@ export async function getPostById(id: bigint) {
 }
 
 export async function createPost(post: any) {
-	const [newPost] = await createNewPost(post);
-	return {...newPost, id:Number(newPost.id)}
+  const newPost = await createNewPost(post);
+  return newPost;
 }
 
 export async function votePost(id: bigint, vote: string) {
-	const [updatedPost] = await updatePost(id, vote);
-	return {...updatedPost, id:Number(updatedPost.id)}
+  const updatedPost = await updatePost(id, vote);
+  return updatedPost;
 }
