@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 kind: Pod
 metadata:
   creationTimestamp: null
@@ -7,9 +7,9 @@ metadata:
   name: nginx-yaml
 spec:
   containers:
-  - image: nginx
-    name: nginx-yaml
-    resources: {}
+    - image: nginx
+      name: nginx-yaml
+      resources: {}
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
